@@ -1,0 +1,13 @@
+64-bit flat binary binfmt for linux.
+
+primarily intended as a toy for code-golf so that i can conveniently test shellcode.
+
+deatils:
+- executable stack and all pages mapped as rwx
+- no aslr, no dynamic linking obviously
+- passes argc/argv/envp in registers (not the stack) - di, si, dx respectively. all other registers zeroed.
+- stack is set up and aligned to 16 bytes.
+- images are always loaded at 0x0000000000040000
+- magic bytes at start of file: "LC64". next two bytes are the amount of extra pages to commit, while the entry point starts at the 6th byte (i.e. immediately after the header).
+- configs for the kernel module: debugging, inserting 0xCC at the entry point for easy breakpointing.
+- kernel (binfmt, see kmod/) and userspace loaders.
